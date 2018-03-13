@@ -1,0 +1,52 @@
+/*
+Skilaverkefni 3
+Sauðakóði fyrir eina af mörgum mögulegum útfærslum á kóða.
+*/
+
+
+// Halda utan um stöðuna á led ljósunum í fylki (svipað og list í python)
+// 0 slökkt er á led
+// 1 kveikt á led þegar það er fært
+// 2 kveikt á led af því að það hefur verið fest
+// upphafsstaða: Slökkt á öllum nema því sem er lengst til vinstri
+ljosastada := [1, 0, 0, 0, 0, 0, 0, 0] // gert í c, int ljosastada[] = {1,0,0,0,0,0,0,0};
+
+// skilgreina eina breytu sem heldur utan um hvar við erum stödd
+// upphafsstaða er lengst til vinstri og skilgreinum við það sem 0 (núll)
+stadsetning := 0
+
+// skilgreina svo úttakspinna (þetta má líka útfæra í fylki) og analog innganga
+led1  // það þarf tæknilega séð ekki að skilgreina breytur fyrir pinnana
+....  // af því að við vísum aldrei í þá með nafni heldur eingöngu númeri
+led8
+xás   // analog pinnana þarf aftur á móti
+yás
+
+setup fallið
+  setja alla led pinnana á OUTPUT
+
+loop fallið
+  ef ýtt er til vinstri
+    ef ég er ekki staddur lengst til vinstri
+      ef ljosastada[stadsetning] er ekki 2 // hefur ekki við fest
+        ljosastada[stadsetning] := 0 // slekk ljósið þar sem ég er staddur
+      stadsetning := stadsetning - 1 // færi mig einn til vinstri
+      ef ljosastada[stadsetning] er ekki 2
+        ljosastada[stadsetning] := 1 // kveiki ljósið á nýja staðnum
+  annars ef ýtt er til hægri
+    ef ég er ekki staddur lengst til hægri
+      ef ljosastada[stadsetning] er ekki 2 // hefur ekki við fest
+        ljosastada[stadsetning] := 0 // slekk ljósið þar sem ég er staddur
+      stadsetning := stadsetning + 1 // færi mig einn til hægri
+      ef ljosastada[stadsetning] er ekki 2
+        ljosastada[stadsetning] := 1 // kveiki ljósið á nýja staðnum
+  annars ef ýtt er upp
+    ljosastada[stadsetning] := 2
+  annars ef ýtt er niður
+    ljosastada[stadsetning] := 1 // vil hafa enn kveikt því ég er staddur þarna
+
+  fyrir i frá 0 til og með 7
+    ef ljosastada[i] er 0
+      skrifa út LOW á viðeigandi pinna
+    annars
+      skrifa út HIGH á viðeigandi pinna
